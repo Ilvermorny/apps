@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Bank\Transaction;
+use App\Bank \{
+    Transaction, Vault
+};
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
 {
@@ -24,7 +27,9 @@ class TransactionController extends Controller
      */
     public function create()
     {
-        //
+
+        $vaults = Vault::all()->pluck('name', 'id')->toArray();
+        return view('bank/transactions/create', compact('vaults'));
     }
 
     /**
@@ -35,7 +40,13 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = Auth::user();
+        $data = $request->all();
+        $data['responsible'] = $user->id;
+        $transaction = Transaction::create($data);
+        $transaction->load('vault');
+        \Alert::success('El depósito se realizó correctamente');
+        return redirect(route('vaults.show', $transaction->vault));
     }
 
     /**

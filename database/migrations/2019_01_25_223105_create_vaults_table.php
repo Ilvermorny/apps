@@ -17,8 +17,9 @@ class CreateVaultsTable extends Migration
             $table->increments('id');
             $table->integer('forum')->unsigned();
             $table->enum('type', ['user', 'family', 'business']);
+            $table->string('name', 128)->nullable($value = true)->unique();
+            $table->string('slug', 128)->nullable($value = true)->unique();
             $table->timestamps();
-
             $table->unique(['forum', 'type']);
         });
     }

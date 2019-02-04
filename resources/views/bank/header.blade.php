@@ -18,6 +18,14 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{{route('vaults.index')}}">Listado de Bóvedas</a>
             </li>
+            @auth
+            <li class="nav-item active">
+                <a class="nav-link" href="{{route('vaults.create')}}">Abrir Bóveda</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{route('transactions.create')}}">Realizar Depósito</a>
+            </li>
+            @endauth
 
         </ul>
         <span class="navbar-text">
