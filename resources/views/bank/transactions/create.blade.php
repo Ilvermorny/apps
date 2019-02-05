@@ -11,12 +11,12 @@
 @section('content')
 
 <div class="panel-body">
-    {!! Form::open(['method' => 'POST', 'route' => 'transactions.store']) !!} {!! Field::select('vault_id', $vaults, ['label' => 'Seleccionar
-    la Bóveda en la que se va a depositar', 'required', 'class' => 'chosen-select']) !!} {!! Field::text('reason', ['label'
-    => 'Motivo del depósito', 'required']) !!} {!! Field::url('request', ['label' => 'Ingresar la URL de la petición', 'required'])
-    !!} {!! Field::number('amount', ['label' => 'Ingresar la cantidad a depositar', 'required']) !!} {!! Field::date('deposit_date',
-    ['required', 'label' => 'Fecha del Depósito', 'type' => 'date']) !!} {!! Form::submit('Crear Bóveda', ['class' => 'btn
-    btn-primary']) !!} {!! Form::close() !!}
+    {!! Form::open(['method' => 'POST', 'route' => 'transactions.store']) !!} {!! Field::select('vault_id', $vaults, ['label'
+    => 'Seleccionar la Bóveda en la que se va a depositar', 'required', 'class' => 'chosen-select']) !!} {!! Field::text('reason',
+    ['label' => 'Motivo del depósito', 'required']) !!} {!! Field::url('request', ['label' => 'Ingresar la URL de la petición',
+    'required']) !!} {!! Field::number('amount', ['label' => 'Ingresar la cantidad a depositar', 'required']) !!} {!! Field::date('deposit_date',
+    ['required', 'label' => 'Fecha del Depósito', 'type' => 'date']) !!} {!! Form::submit('Realizar Depósito', ['class' =>
+    'btn btn-primary']) !!} {!! Form::close() !!}
 </div>
 @endsection
  

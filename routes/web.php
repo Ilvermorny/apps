@@ -30,7 +30,10 @@ Route::prefix('bank')->group(function () {
      */
     Route::group(['middleware' => 'auth'], function () {
         Route::resource('vaults', 'VaultController')->except(['index', 'show']);
-        Route::resource('transactions', 'TransactionController')->except(['index', 'show']);
+        Route::resource('transactions', 'TransactionController')->except(['index', 'show', 'destroy']);
+        Route::group(['middleware' => ['checkdirector']], function () {
+            Route::resource('transactions', 'TransactionController')->only(['destroy']);
+        });
     });
 
     /**
@@ -50,7 +53,7 @@ Route::prefix('bank')->group(function () {
  */
 
 Auth::routes([
-    //'register' => false,
+    'register' => false,
     'password.email' => false,
     'password.request' => false,
     //'password.update' => false,
@@ -67,3 +70,10 @@ Route::redirect('', 'bank/vaults');
 
 
 Route::redirect('/home', '/')->name('home');
+
+
+Route::group(['middleware' => ['auth', 'checkadmin']], function () {
+    Route::resource('admin/users', 'UserController');
+    Route::get('admin/users/{user}/password', 'UserController@password')->name('users.password');
+    Route::put('admin/users/{user}/password', 'UserController@updatePassword')->name('users.passwordUpdate');
+});

@@ -18,6 +18,8 @@
                 <th scope="col">Motivo</th>
                 <th scope="col">Solicitud</th>
                 <th scope="col">Dracots</th>
+                @auth
+                <th scope="col">Acciones</th> @endauth
             </tr>
             <tbody>
                 @foreach ($vault->transactions_paginated as $transaction)
@@ -27,6 +29,20 @@
                     <td>{{$transaction->reason}}</td>
                     <td><a href="{{$transaction->request}}" target="_blank">Ver</a></td>
                     <td>{{$transaction->amount}}</td>
+                    @auth
+                    <th scope="col">
+                        <a href="{{route('transactions.edit', $transaction)}}"><i class="fas fa-edit"></i></a>
+                        @if(Auth::user()->type === 'admin' or Auth::user()->type === 'director')
+                    <a href="#" onclick="event.preventDefault(); if(confirm('¿Estás seguro de querer eliminar esta transacción?')){document.getElementById('delete-form-{{$transaction->id}}').submit();}"><i class="fas fa-trash-alt"></i></a>
+
+
+                        <form id="delete-form-{{$transaction->id}}" style="display: none;" action="{{route('transactions.destroy', $transaction->id)}}" method="post" onsubmit="return confirm('Do you really want to Delete the Task?');">
+                            @csrf
+                        <input name="_method" type="hidden" value="DELETE">
+                            <button class="btn btn-danger" type="submit">Delete</button>
+                        </form>
+                        @endif
+                    </th> @endauth
                 </tr>
                 @endforeach
             </tbody>

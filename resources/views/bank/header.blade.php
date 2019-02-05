@@ -11,7 +11,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="https://apps.ilvermorny.xyz/">Ilvermorny</a>
+        <a class="navbar-brand" href="/">Ilvermorny</a>
     </div>
     <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
@@ -24,6 +24,21 @@
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="{{route('transactions.create')}}">Realizar Depósito</a>
+            </li>
+            @if(Auth::user()->type === 'admin')
+            <li class="nav-item active">
+                <a class="nav-link" href="{{route('users.index')}}">Panel de Administración</a>
+            </li>
+            @endif
+            <li class="nav-item active">
+                <a class="nav-link" href="{{route('logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><span style="color:red;">Logout</span></a>
+            </li>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                {{ csrf_field() }}
+            </form>
+            @else
+            <li class="nav-item active">
+                <a class="nav-link" href="{{route('login')}}"><span style="color:red;">Login</span></a>
             </li>
             @endauth
 

@@ -68,7 +68,10 @@ class TransactionController extends Controller
      */
     public function edit(Transaction $transaction)
     {
-        //
+        $transaction->load('vault');
+        $vaults = Vault::all()->pluck('name', 'id')->toArray();
+
+        return view('bank/transactions/edit', compact(['transaction', 'vaults']));
     }
 
     /**
@@ -80,7 +83,9 @@ class TransactionController extends Controller
      */
     public function update(Request $request, Transaction $transaction)
     {
-        //
+        $transaction->update($request->all());
+        \Alert::info('Depósito actualizado');
+        return redirect(route('vaults.show', $transaction->vault));
     }
 
     /**
@@ -91,6 +96,11 @@ class TransactionController extends Controller
      */
     public function destroy(Transaction $transaction)
     {
-        //
+        $transaction->delete();
+        \Alert::info('El depósito se eliminó correctamente');
+        return redirect()->back();
+
     }
+
+
 }
