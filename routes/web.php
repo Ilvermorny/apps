@@ -64,7 +64,7 @@ Auth::routes([
  * Other System
  */
 
-Route::redirect('bank', 'vaults');
+Route::redirect('bank', 'bank/vaults');
 Route::redirect('', 'bank/vaults');
 
 
