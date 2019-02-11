@@ -17,13 +17,16 @@ class VaultController extends Controller
      */
     public function index(Request $request)
     {
-        $vaults = Vault::all();
+        $vaults = Vault::orderBy('type')->orderBy('id')->paginate(10);
         $vaults_plucked = $vaults->pluck('name', 'forum', 'slug');
         if ($request->input('type')) {
-            $vaults = Vault::where('type', $request->input('type'))->orderBy('id')->get();
+            $vaults = Vault::where('type', $request->input('type'))->orderBy('type')->orderBy('id')->paginate(10);
+        } else if ($request->input('search')) {
+            $searchTerm = "%" . $request->input('search') . "%";
+            $vaults = Vault::where('name', 'like', $searchTerm)->orderBy('type')->orderBy('name')->paginate(10);
         }
         $vaults->load('transactions');
-        return view('bank/vaults/index', compact(['vaults', 'vaults_plucked']));
+        return view('bank/vaults/index', compact(['vaults']));
     }
 
     /**

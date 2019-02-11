@@ -8,17 +8,53 @@
 @section('content')
 
 <h2>Lista de bóvedas creadas </h2>
-Escribir en el campo de búsqueda para localizar una bóveda
+<h4>Filtrar por tipo:</h4>
+<nav class="nav nav-pills pb-2">
+    <a class="nav-link" id="nav-user" href="?type=user">Usuario</a>
+    <a class="nav-link" id="nav-family" href="?type=family">Familia</a>
+    <a class="nav-link" id="nav-business" href="?type=business">Negocio</a>
+</nav>
 
-<div class="card-deck">
-    @foreach ($vaults as $vault)
-    <a href="{{ route('vaults.show', $vault) }}">
-        <div class="card bg-light mb-3" style="max-width: 18rem;">
-            <div class="card-body">
-                Bóveda de {{ $vault->name }}
-            </div>
-        </div>
-    </a>
-    @endforeach
+{!! Form::open(['method' => 'get', 'route' => 'vaults.index']) !!} {!! Field::text('search', ['label' => False, 'placeholder'
+=> 'Buscar por nombre', 'class' => 'form-control-lg']) !!} {!! Form::close() !!}
+
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Propietario</th>
+                <th scope="col"># de depósitos</th>
+                <th scope="col">Total de Dracots</th>
+                <th scope="col">Ver</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($vaults as $vault)
+            <tr>
+                <th scope="row">{{$vault->id}}</th>
+                <td>{{$vault->name}}</td>
+                <td>{{$vault->number}}</td>
+                <td>{{$vault->total}}</td>
+                <td><a href="{{ route('vaults.show', $vault) }}">Ver</a></td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+    {!! $vaults->render() !!}
 </div>
+@endsection
+ 
+@section('javascript')
+<script>
+    const active = type => {
+        if(type !== '') {
+            let navActive = document.getElementById("nav-"+type)
+            navActive.classList.add("active")
+        }
+    }
+    active("{{ app('request')->input('type') }}")
+
+</script>
 @endsection

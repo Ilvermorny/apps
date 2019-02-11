@@ -39,7 +39,14 @@ class Vault extends Model
         //return route('vaults.show', $this);
 
     }
-
+    public function getTotalAttribute()
+    {
+        return $this->transactions->sum('amount');
+    }
+    public function getNumberAttribute()
+    {
+        return $this->transactions()->count();
+    }
     public function getRouteKeyName()
     {
         return 'slug';
